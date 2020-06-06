@@ -4,12 +4,12 @@ config.load_config();
 
 const Client = new Discord.Client();
 
-// Client.on('message', (msg) => {
-// 	if (msg.content == 'hi') {
-// 		msg.reply('Hello my dear friend...');
-// 	}
-// });
+Client.on('message', (msg) => {
+	if (msg.content == 'hi') {
+		msg.reply('Hello my dear friend...');
+	}
+});
 
 console.log("He's ready");
 
-Client.login(config.get_attr('token'));
+Client.login(config.get('discord/token'));
