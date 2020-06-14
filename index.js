@@ -1,15 +1,11 @@
 const Discord = require('discord.js');
-const config = require('./util/config_loader.js');
+const config = require('./util/config_loader');
+const event_handler_initializer = require('./features/event_handler_initializer');
+const shared = require('./util/shared_var');
+
 config.load_config();
+shared.add('Client', new Discord.Client());
 
-const Client = new Discord.Client();
+event_handler_initializer.create_eventhandlers(shared.get('Client'));
 
-Client.on('message', (msg) => {
-	if (msg.content == 'hi') {
-		msg.reply('Hello my dear friend...');
-	}
-});
-
-console.log("He's ready");
-
-Client.login(config.get('discord/token'));
+shared.get('Client').login(config.get('discord/token'));

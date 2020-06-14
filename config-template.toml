@@ -5,3 +5,7 @@
 # Discord bot credentials and settings
 [discord]
 token = "DISCORD-BOT-TOKEN"
+
+# Server settings
+[server]
+cmd-prefix = "!"
