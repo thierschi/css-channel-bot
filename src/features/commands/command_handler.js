@@ -35,13 +35,15 @@ function help(msg, cmd_arr) {
 
 	try {
 		// Get help of command specified in cmd_arr[1]
-		answer = commands.get(cmd_arr[1]).help();
+		answer = commands.get(cmd_arr[1]).help_embed();
 	} catch (e) {
 		// Or get a help overview
 		answer = help_overview();
 	}
 
-	msg.channel.send(answer);
+	msg.channel.send(answer).then((sent) => {
+		//TODO: add sent message to deletion queue
+	});
 }
 
 function help_overview() {
@@ -57,9 +59,9 @@ function help_overview() {
 	command_arr.sort();
 
 	// Build awnser
-	var answer = '**The following help is available:**\n';
+	var answer = '__**The following help is available:**__\n\n';
 	for (var cmd of command_arr) {
-		answer += '`!help ' + cmd + '`\n';
+		answer += `> ${commands.get(cmd).help_title()} - \`!help ${cmd}\`\n`;
 	}
 
 	return answer;

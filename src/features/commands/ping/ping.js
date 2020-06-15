@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const shared = require('../../../util/shared_var');
+const config = require('../../../util/config_loader');
 
 /**
  *	Reply to !ping with Pong and elapsed Time
@@ -27,11 +28,35 @@ function run(msg, cmd_arr) {
 	});
 }
 
-function help(msg, cmd_arr) {
-	msg.channel.send();
+function help_title() {
+	return 'Ping';
+}
+
+function help_embed() {
+	const answer = new Discord.MessageEmbed()
+		.setColor(config.get('colors/embed/color'))
+		.setTitle('Pinging Command')
+		.addFields(
+			{ name: 'Command', value: '`!ping`' },
+			{
+				name: 'Description',
+				value:
+					'The bot will respond with "Pong!" and an elapsed ping-time* in milliseconds will be displayd shortly after.',
+			},
+			{
+				name: 'Notes',
+				value: 'Ping messages are automatically deleted after 5 seconds.',
+			}
+		)
+		.setFooter(
+			'*Due to how the ping is estimated and due to client latencies, this ping is not too accurate.'
+		);
+
+	return answer;
 }
 
 module.exports = {
 	run,
-	help,
+	help_title,
+	help_embed,
 };

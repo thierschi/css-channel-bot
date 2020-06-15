@@ -13,6 +13,18 @@ function create_eventhandlers(discord_client) {
 			command_handler.handle_command(msg);
 		}
 	});
+
+	for (const event of [
+		'exit',
+		'SIGINT',
+		'SIGUSR1',
+		'SIGUSR2',
+		'uncaughtException',
+		'SIGTERM',
+	]) {
+		// TODO add listeners
+		// process.on(event, cleanUp);
+	}
 }
 
 module.exports = {

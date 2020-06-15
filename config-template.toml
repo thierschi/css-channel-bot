@@ -9,3 +9,8 @@ token = "DISCORD-BOT-TOKEN"
 # Server settings
 [server]
 cmd-prefix = "!"
+
+#Color shemes
+[colors]
+[colors.embed]
+color = "#550C18"
