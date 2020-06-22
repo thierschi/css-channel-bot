@@ -1,3 +1,3 @@
-# Channel-Bot for the computersciencesquad Discord server
+# Cheap Ripoff of the Channel-Bot for the computersciencesquad Discord server
 
-Further information coming soon
+Further information coming never
