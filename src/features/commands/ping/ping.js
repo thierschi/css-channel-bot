@@ -35,13 +35,12 @@ function help_title() {
 function help_embed() {
 	const answer = new Discord.MessageEmbed()
 		.setColor(config.get('colors/embed/color'))
-		.setTitle('Pinging Command')
+		.setTitle('Message Cleanup Commands')
 		.addFields(
-			{ name: 'Command', value: '`!ping`' },
 			{
-				name: 'Description',
+				name: 'Command',
 				value:
-					'The bot will respond with "Pong!" and an elapsed ping-time* in milliseconds will be displayd shortly after.',
+					'`!ping` - The bot will respond with "Pong!" and an elapsed ping-time* in milliseconds will be displayd shortly after.',
 			},
 			{
 				name: 'Notes',
@@ -56,6 +55,7 @@ function help_embed() {
 }
 
 module.exports = {
+	cmd_name: 'ping',
 	run,
 	help_title,
 	help_embed,

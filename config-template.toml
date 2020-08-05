@@ -9,6 +9,8 @@ token = "DISCORD-BOT-TOKEN"
 # Server settings
 [server]
 cmd-prefix = "!"
+#Message cleanup intervall (Units: d - Days, h - Hours, min - Minutes, s - Seconds, ms - Millieseconds)
+cleanup-intervall = "1h"
 
 #Color shemes
 [colors]

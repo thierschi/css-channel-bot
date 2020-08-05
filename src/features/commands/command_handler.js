@@ -1,8 +1,14 @@
 const Discord = require('discord.js');
 const config = require('../../util/config_loader');
 const commands = new Map();
+const cleanup = require('../msg_cleanup/msg_cleanup');
 
-commands.set('ping', require('./ping/ping'));
+commands.set(require('./ping/ping').cmd_name, require('./ping/ping'));
+commands.set(
+	require('./controls/cleanup_controls').cmd_name,
+	require('./controls/cleanup_controls')
+);
+console.log(commands);
 
 /**
  * Takes a message and runs the command
@@ -25,8 +31,6 @@ function handle_command(msg) {
 		console.error(
 			`[Error] User ${msg.author.tag} tried to issue command \"${msg.content}\": Command not found!`
 		);
-		console.log(e);
-		// For debugging
 	}
 }
 
@@ -38,11 +42,12 @@ function help(msg, cmd_arr) {
 		answer = commands.get(cmd_arr[1]).help_embed();
 	} catch (e) {
 		// Or get a help overview
+		// console.log(e);
 		answer = help_overview();
 	}
 
 	msg.channel.send(answer).then((sent) => {
-		//TODO: add sent message to deletion queue
+		cleanup.add(msg, sent);
 	});
 }
 
