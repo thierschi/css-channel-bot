@@ -20,7 +20,12 @@ async function set_guild_logo_to_apod(guild_id) {
 		 */
 		try {
 			// If fetching the APOD succeeds break loop
-			apod_obj = await get_apod(new Date().toISOString().split('T')[0]);
+			// Calculate TimeZoneOffset in ms to get correct Date
+			let time_zone_offset = new Date().getTimezoneOffset() * 60000;
+			apod_obj = await get_apod(
+				new Date(Date.now() - time_zone_offset).toISOString().split('T')[0]
+			);
+
 			break;
 		} catch (e) {
 			// Wait for 60 minutes an loop again
