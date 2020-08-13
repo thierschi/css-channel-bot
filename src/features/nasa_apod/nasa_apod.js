@@ -13,7 +13,7 @@ const config = require('../../util/config_loader');
  * @param {*} guild_id, ID of guild thats logo it is to set
  */
 async function set_guild_logo_to_apod(guild_id) {
-	var apod_obj;
+	let apod_obj;
 	while (true) {
 		/**
 		 * If there is no APOD for the date currently try every hour until there is
@@ -30,10 +30,10 @@ async function set_guild_logo_to_apod(guild_id) {
 			await new Promise((resolve) => setTimeout(resolve, 60 * 60 * 1000));
 		}
 	}
-	var processed_img = await create_guild_logo(apod_obj.img);
 
 	send_apod_info(guild_id, apod_obj.json, apod_obj.img);
 	if (apod_obj.json.media_type == 'image') {
+		let processed_img = await create_guild_logo(apod_obj.img);
 		shared.get('Client').guilds.cache.get(guild_id).setIcon(processed_img);
 	}
 }
@@ -45,7 +45,7 @@ async function set_guild_logo_to_apod(guild_id) {
  */
 function get_cron_task(guild_id) {
 	set_guild_logo_to_apod(guild_id);
-	return cron.schedule('* * * * *', () => set_guild_logo_to_apod(guild_id), {
+	return cron.schedule('0 0 * * *', () => set_guild_logo_to_apod(guild_id), {
 		scheduled: false,
 	});
 }
@@ -57,14 +57,14 @@ function get_cron_task(guild_id) {
  */
 async function get_apod(date) {
 	// Build URL for API request
-	var url = `https://api.nasa.gov/planetary/apod?api_key=${config.get(
+	let url = `https://api.nasa.gov/planetary/apod?api_key=${config.get(
 		'nasa-apod/api-key'
 	)}&date=${date}&hd=true`;
 
-	var settings = { method: 'Get' };
+	let settings = { method: 'Get' };
 
 	// Fetch NASA APOD JSON
-	var apod_json;
+	let apod_json;
 	await fetch(url, settings)
 		.then((res) => res.json())
 		.then((json) => {
@@ -76,7 +76,7 @@ async function get_apod(date) {
 	}
 
 	// Fetch (at least try to fetch) NASA APOD
-	var img_buffer;
+	let img_buffer;
 	await fetch(apod_json.url)
 		.then((res) => res.buffer())
 		.then((buffer) => {
@@ -93,15 +93,15 @@ async function get_apod(date) {
  * @param {*} img_buffer
  */
 async function create_guild_logo(img_buffer) {
-	var sharp_instance = sharp(img_buffer);
+	let sharp_instance = sharp(img_buffer);
 
 	// Get width and height to crop image to largest possible 1x1 ratio
-	var dim;
+	let dim;
 	await sharp_instance.metadata().then((metadata) => {
 		dim = Math.min(metadata.width, metadata.height);
 	});
 
-	var path = config.get('nasa-apod/overlay-path');
+	let path = config.get('nasa-apod/overlay-path');
 	// Get path into right format => ./path/.../file.extension
 	path =
 		path.match(/^\.\//) != null

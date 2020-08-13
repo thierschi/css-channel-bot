@@ -5,8 +5,8 @@ const mutex = require('../../util/mutex');
 
 // Array is used as queue using push and shift
 // Lock for array because of async functions
-var msg_queue_arr = [];
-var msg_queue_arr_lock = new mutex.Lock();
+let msg_queue_arr = [];
+let msg_queue_arr_lock = new mutex.Lock();
 
 /**
  * Add a message/ messages to cleanup queue
@@ -42,7 +42,7 @@ async function ignore(id) {
 	msg_queue_arr_lock.aquire();
 	{
 		// Search for id in queue und remove it when found
-		for (var i = 0; i < 0; i++) {
+		for (let i = 0; i < 0; i++) {
 			if (msg_queue_arr[i].msg == id) {
 				msg_queue_arr.splice(i, 1);
 			}
@@ -66,7 +66,7 @@ async function clean(period) {
  * @param {String} period -> Delete all messages older than period, every period
  */
 async function periodic_cleanup(period) {
-	var millies = to_millies(period);
+	let millies = to_millies(period);
 
 	while (true) {
 		await new Promise((resolve) => setTimeout(resolve, millies));
@@ -80,7 +80,9 @@ async function periodic_cleanup(period) {
  * @param {long} millies
  */
 function delete_messages(millies) {
-	var threshold = new Date().getTime() - millies;
+	let threshold = new Date().getTime() - millies;
+
+	let no_messages_cleaned = 0;
 	while (msg_queue_arr.length != 0) {
 		/* If the next element in the queue (here index 0 of array) is
 		over the given threshold, all elements in the queue are,
@@ -89,7 +91,7 @@ function delete_messages(millies) {
 
 		msg_queue_arr_lock.aquire();
 		{
-			var next = msg_queue_arr.shift();
+			let next = msg_queue_arr.shift();
 		}
 		msg_queue_arr_lock.release();
 
@@ -99,13 +101,14 @@ function delete_messages(millies) {
 			.channels.cache.get(next.channel)
 			.messages.fetch(next.msg)
 			.then((msg) => msg.delete());
+
+		no_messages_cleaned++;
 	}
 
-	console.log(
-		`[Info][${new Date().toISOString()}]: Cleaned ${
-			msg_queue_arr.length
-		} messages.`
-	);
+	if (no_messages_cleaned != 0)
+		console.log(
+			`[Info][${new Date().toISOString()}]: Cleaned ${no_messages_cleaned} messages.`
+		);
 }
 
 /**
@@ -124,7 +127,7 @@ function delete_messages(millies) {
 function to_millies(s) {
 	s.toLowerCase();
 
-	var millies;
+	let millies;
 	switch (s.slice(-1)) {
 		case 'n':
 			millies = s.slice(0, -3) * 60 * 1000;

@@ -10,14 +10,14 @@ const config = require('../../../util/config_loader');
  */
 function run(msg, cmd_arr) {
 	msg.channel.send('Pong!').then((sent) => {
-		var sf_rec = Discord.SnowflakeUtil.deconstruct(msg.id);
-		var sf_sen = Discord.SnowflakeUtil.deconstruct(sent.id);
+		let sf_rec = Discord.SnowflakeUtil.deconstruct(msg.id);
+		let sf_sen = Discord.SnowflakeUtil.deconstruct(sent.id);
 
 		/**
 		 * Calculate elapsed ping of user, by the difference in the timestamps
 		 * of sent and recieved message and subtract the bots ping
 		 */
-		var elapsed = Math.abs(
+		let elapsed = Math.abs(
 			sf_sen.timestamp - sf_rec.timestamp - shared.get('Client').ws.ping
 		);
 		sent.edit(`Pong! (Elapsed Time: ${elapsed}ms)`);

@@ -16,8 +16,8 @@ console.log(commands);
  * @param {Discord.Message} msg
  */
 function handle_command(msg) {
-	var command = msg.content.slice(1);
-	var command_arr = command.split(' ');
+	let command = msg.content.slice(1);
+	let command_arr = command.split(' ');
 
 	// Run help
 	if (command_arr[0] == 'help') {
@@ -37,7 +37,7 @@ function handle_command(msg) {
 }
 
 function help(msg, cmd_arr) {
-	var answer;
+	let answer;
 
 	try {
 		// Get help of command specified in cmd_arr[1]
@@ -55,7 +55,7 @@ function help(msg, cmd_arr) {
 
 function help_overview() {
 	// Get a list of all keys of the commands map => the command keywords
-	var command_arr = [];
+	let command_arr = [];
 	const command_iterator = commands.keys();
 	while (true) {
 		let next = command_iterator.next();
@@ -66,8 +66,8 @@ function help_overview() {
 	command_arr.sort();
 
 	// Build awnser
-	var answer = '__**The following help is available:**__\n\n';
-	for (var cmd of command_arr) {
+	let answer = '__**The following help is available:**__\n\n';
+	for (let cmd of command_arr) {
 		answer += `> ${commands.get(cmd).help_title()} - \`!help ${cmd}\`\n`;
 	}
 
