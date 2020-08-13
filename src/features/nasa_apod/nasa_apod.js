@@ -39,7 +39,7 @@ async function set_guild_logo_to_apod(guild_id) {
 }
 
 /**
- * Return a sheduled task, that only has to be started
+ * Return a scheduled task, that only has to be started
  *
  * @param {*} guild_id
  */

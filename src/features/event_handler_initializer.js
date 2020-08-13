@@ -18,14 +18,14 @@ function create_eventhandlers(discord_client) {
 			`✅ Client ${discord_client.user.username} successfully logged in.`
 		);
 
-		const sheduled_tasks = [
+		const scheduled_tasks = [
 			apod.get_cron_task(config.get('nasa-apod/guild-id')),
 		];
 
-		sheduled_tasks.forEach((task) => {
+		scheduled_tasks.forEach((task) => {
 			task.start();
 			console.log(
-				`[Info][${new Date().toISOString()}]: A task has been sheduled.`
+				`[Info][${new Date().toISOString()}]: A task has been scheduled.`
 			);
 		});
 	});
