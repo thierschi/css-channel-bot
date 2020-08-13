@@ -28,8 +28,10 @@ function handle_command(msg) {
 	try {
 		commands.get(command_arr[0].toLowerCase()).run(msg, command_arr);
 	} catch (e) {
-		console.error(
-			`[Error] User ${msg.author.tag} tried to issue command \"${msg.content}\": Command not found!`
+		console.log(
+			`[Error][${new Date().toISOString()}] User ${
+				msg.author.tag
+			} tried to issue command \"${msg.content}\": Command not found!`
 		);
 	}
 }

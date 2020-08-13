@@ -9,10 +9,17 @@ token = "DISCORD-BOT-TOKEN"
 # Server settings
 [server]
 cmd-prefix = "!"
-#Message cleanup intervall (Units: d - Days, h - Hours, min - Minutes, s - Seconds, ms - Millieseconds)
+# Message cleanup intervall (Units: d - Days, h - Hours, min - Minutes, s - Seconds)
 cleanup-intervall = "1h"
 
-#Color shemes
+# Nasa Apod
+[nasa-apod]
+api-key = "NASA-API-KEY"
+guild-id = "ID-OF-GUILD"
+# Path to img that will be overlayed (e.g. logo)
+overlay-path = "PATH"
+
+# Color schemes
 [colors]
 [colors.embed]
 color = "#550C18"

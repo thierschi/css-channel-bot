@@ -10,6 +10,8 @@
 	"license": "MIT",
 	"dependencies": {
 		"discord.js": "^12.2.0",
+		"node-cron": "^2.0.3",
+		"sharp": "^0.25.4",
 		"toml": "^3.0.0"
 	}
 }

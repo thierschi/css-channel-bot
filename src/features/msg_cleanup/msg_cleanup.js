@@ -30,7 +30,7 @@ async function add(...msgs) {
 		}
 		msg_queue_arr_lock.release();
 	});
-	console.log('Message Cleanup-queue length: ' + msg_queue_arr.length);
+	// console.log('Message Cleanup-queue length: ' + msg_queue_arr.length);
 }
 
 /**
@@ -101,7 +101,11 @@ function delete_messages(millies) {
 			.then((msg) => msg.delete());
 	}
 
-	console.log('Message Cleanup-queue length: ' + msg_queue_arr.length);
+	console.log(
+		`[Info][${new Date().toISOString()}]: Cleaned ${
+			msg_queue_arr.length
+		} messages.`
+	);
 }
 
 /**
@@ -114,7 +118,6 @@ function delete_messages(millies) {
  * 			h - Hours
  * 			min - Minutes
  * 			s - Seconds
- * 			ms - Millieseconds
  *
  * @param {String} s, period-string
  */
@@ -133,8 +136,7 @@ function to_millies(s) {
 			millies = s.slice(0, -1) * 24 * 60 * 60 * 1000;
 			break;
 		case 's':
-			if (s.slice(-2) == 'ms') ms = s.slice(0, -2) * 1;
-			else millies = s.slice(0, -1) * 1000;
+			millies = s.slice(0, -1) * 1000;
 			break;
 		default:
 			throw 'Invalid period string!';
