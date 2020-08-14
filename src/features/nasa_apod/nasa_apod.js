@@ -49,7 +49,6 @@ async function set_guild_logo_to_apod(guild_id) {
  * @param {*} guild_id
  */
 function get_cron_task(guild_id) {
-	set_guild_logo_to_apod(guild_id);
 	return cron.schedule('0 0 * * *', () => set_guild_logo_to_apod(guild_id), {
 		scheduled: false,
 	});

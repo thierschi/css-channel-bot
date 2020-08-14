@@ -28,6 +28,14 @@ function create_eventhandlers(discord_client) {
 				`[Info][${new Date().toISOString()}]: A task has been scheduled.`
 			);
 		});
+
+		shared_var
+			.get('Client')
+			.guilds.cache.get(guild_id)
+			.systemChannel.send("I'm ready!")
+			.then((sent) => {
+				cleanup.add(sent);
+			});
 	});
 
 	discord_client.on('message', (msg) => {
