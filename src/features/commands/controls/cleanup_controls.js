@@ -3,12 +3,40 @@ const Discord = require('discord.js');
 const config = require('../../../util/config_loader');
 const cleanup = require('../../msg_cleanup/msg_cleanup');
 
-function run(msg, cmd_array) {
-	switch (cmd_array[1]) {
+let commands = [{ name: 'cleanup', function: cleanup_clean }];
+
+/**
+ * Adds available commands of module to given map
+ *
+ * @param {Map} command_map
+ */
+function init_commands(command_map, help_map) {
+	commands.forEach((command) => {
+		command_map.set(command.name, command.function);
+	});
+
+	help_map.set('cleanup', {
+		help_title: 'Message Cleanup',
+		help_embed: help_embed,
+	});
+
+	console.log(
+		`[Startup][${new Date().toISOString()}]: Initialized Message Cleanup Commands.`
+	);
+}
+
+/**
+ * Initiates cleanup of messages
+ *
+ * @param {*} msg
+ * @param {*} cmd_array
+ */
+function cleanup_clean(msg, cmd_arr) {
+	switch (cmd_arr[1]) {
 		case 'clean':
 			try {
-				if (cmd_array[2] == undefined) cmd_array[2] = 0;
-				cleanup.clean(cmd_array[2]);
+				if (cmd_arr[2] == undefined) cmd_arr[2] = 0;
+				cleanup.clean(cmd_arr[2]);
 				msg.channel
 					.send('Messages have been deleted successfully!')
 					.then((sent) => {
@@ -22,7 +50,7 @@ function run(msg, cmd_array) {
 			break;
 		case 'ignore':
 			try {
-				cleanup.ignore(cmd_array[2]);
+				cleanup.ignore(cmd_arr[2]);
 			} catch (e) {
 				msg.channel.send('An error occured.').then((sent) => {
 					cleanup.add(msg, sent);
@@ -34,11 +62,13 @@ function run(msg, cmd_array) {
 	}
 }
 
-function help_title() {
-	return 'Message Cleanup';
-}
-
-function help_embed() {
+/**
+ * Returns help embed for cleanup controls
+ *
+ * @param {*} msg
+ * @param {*} cmd_array
+ */
+function help_embed(msg, cmd_arr) {
 	const answer = new Discord.MessageEmbed()
 		.setColor(config.get('colors/embed/color'))
 		.setTitle('Message Cleanup')
@@ -61,8 +91,5 @@ function help_embed() {
 }
 
 module.exports = {
-	cmd_name: 'cleanup',
-	run,
-	help_title,
-	help_embed,
+	init_commands,
 };

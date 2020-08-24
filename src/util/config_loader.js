@@ -15,6 +15,8 @@ function load_config(path) {
 
 	let raw_data = fs.readFileSync(path);
 	parameters = toml.parse(raw_data);
+
+	console.log(`[Startup][${new Date().toISOString()}]: Config loaded.`);
 }
 
 /**

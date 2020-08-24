@@ -15,12 +15,12 @@ const shared_var = require('../util/shared_var');
 function create_eventhandlers(discord_client) {
 	discord_client.on('ready', () => {
 		console.log(
-			`✅ Client ${discord_client.user.username} successfully logged in.`
+			`[Client][${new Date().toISOString()}]: Client ${
+				discord_client.user.username
+			} successfully logged in.`
 		);
 
-		const scheduled_tasks = [
-			apod.get_cron_task(config.get('nasa-apod/guild-id')),
-		];
+		const scheduled_tasks = [apod.get_cron_task(config.get('server/guild-id'))];
 
 		scheduled_tasks.forEach((task) => {
 			task.start();
@@ -31,7 +31,7 @@ function create_eventhandlers(discord_client) {
 
 		shared_var
 			.get('Client')
-			.guilds.cache.get(guild_id)
+			.guilds.cache.get(config.get('server/guild-id'))
 			.systemChannel.send("I'm ready!")
 			.then((sent) => {
 				cleanup.add(sent);

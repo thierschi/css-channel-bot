@@ -1,32 +1,31 @@
 const Discord = require('discord.js');
 const config = require('../../util/config_loader');
-const commands = new Map();
+
 const cleanup = require('../msg_cleanup/msg_cleanup');
 
-commands.set(require('./ping/ping').cmd_name, require('./ping/ping'));
-commands.set(
-	require('./controls/cleanup_controls').cmd_name,
-	require('./controls/cleanup_controls')
-);
-console.log(commands);
+const command_map = new Map();
+const help_map = new Map();
+
+require('./ping/ping').init_commands(command_map, help_map);
+require('./controls/cleanup_controls').init_commands(command_map, help_map);
 
 /**
- * Takes a message and runs the command
+ * Takes a message and runs the associated command
  *
  * @param {Discord.Message} msg
  */
 function handle_command(msg) {
-	let command = msg.content.slice(1);
-	let command_arr = command.split(' ');
+	let cmd = msg.content.slice(1);
+	let cmd_arr = cmd.split(' ');
 
 	// Run help
-	if (command_arr[0] == 'help') {
-		help(msg, command_arr);
+	if (cmd_arr[0] == 'help') {
+		help(msg, cmd_arr);
 		return;
 	}
 
 	try {
-		commands.get(command_arr[0].toLowerCase()).run(msg, command_arr);
+		command_map.get(cmd_arr[0].toLowerCase())(msg, cmd_arr);
 	} catch (e) {
 		console.log(
 			`[Error][${new Date().toISOString()}] User ${
@@ -41,7 +40,7 @@ function help(msg, cmd_arr) {
 
 	try {
 		// Get help of command specified in cmd_arr[1]
-		answer = commands.get(cmd_arr[1]).help_embed();
+		answer = help_map.get(cmd_arr[1]).help_embed(msg, cmd_arr);
 	} catch (e) {
 		// Or get a help overview
 		// console.log(e);
@@ -55,20 +54,21 @@ function help(msg, cmd_arr) {
 
 function help_overview() {
 	// Get a list of all keys of the commands map => the command keywords
-	let command_arr = [];
-	const command_iterator = commands.keys();
+	let help_arr = [];
+
+	const help_it = help_map.keys();
 	while (true) {
-		let next = command_iterator.next();
+		let next = help_it.next();
 		if (next.done) break;
-		command_arr.push(next.value);
+		help_arr.push(next.value);
 	}
 
-	command_arr.sort();
+	help_arr.sort();
 
 	// Build awnser
 	let answer = '__**The following help is available:**__\n\n';
-	for (let cmd of command_arr) {
-		answer += `> ${commands.get(cmd).help_title()} - \`!help ${cmd}\`\n`;
+	for (let cmd of help_arr) {
+		answer += `> ${help_map.get(cmd).help_title} - \`!help ${cmd}\`\n`;
 	}
 
 	return answer;

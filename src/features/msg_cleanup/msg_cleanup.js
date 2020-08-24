@@ -89,9 +89,11 @@ function delete_messages(millies) {
 		hence deletion can be stopped */
 		if (msg_queue_arr[0].time > threshold) break;
 
+		let next;
+
 		msg_queue_arr_lock.aquire();
 		{
-			let next = msg_queue_arr.shift();
+			next = msg_queue_arr.shift();
 		}
 		msg_queue_arr_lock.release();
 

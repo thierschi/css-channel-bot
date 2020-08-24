@@ -8,6 +8,7 @@ token = "DISCORD-BOT-TOKEN"
 
 # Server settings
 [server]
+guild-id = "ID-OF-GUILD"
 cmd-prefix = "!"
 # Message cleanup intervall (Units: d - Days, h - Hours, min - Minutes, s - Seconds)
 cleanup-intervall = "1h"
@@ -15,7 +16,6 @@ cleanup-intervall = "1h"
 # Nasa Apod
 [nasa-apod]
 api-key = "NASA-API-KEY"
-guild-id = "ID-OF-GUILD"
 # Path to img that will be overlayed (e.g. logo)
 overlay-path = "PATH"
 
