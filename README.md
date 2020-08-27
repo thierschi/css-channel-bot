@@ -49,4 +49,4 @@ This prevents treminating the bot and writes all output to log.txt. (On Linux)
 
 # Documentation
 
-For documentation see code comments and `/doc`.
+For documentation see code comments and [`doc`](./doc).
