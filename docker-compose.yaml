@@ -1,0 +1,16 @@
+version: '3'
+services:
+  css-bot:
+    container_name: css-bot-node
+    restart: always
+    build: .
+    volumes:
+      - ./src:/usr/src/app/src
+      - ./config.toml:/usr/src/app/config.toml
+  #   links:
+  #     - mongo
+  # mongo:
+  #   container_name: mongo
+  #   image: mongo
+  #   expose:
+  #     - '27017'

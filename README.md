@@ -19,33 +19,23 @@ The bot is now heading towards being an allround bot, including music-bot and mu
 
 # Usage / Installation
 
-Clone repository
+**1.** Clone repository
 
 ```
 git clone https://github.com/thierschi/css-channel-bot.git
 ```
 
-Install node modules
+**2.** Rename `config-template.toml` to `config.toml` and fill in your api-tokens.
+
+**3.** Start the bot
 
 ```
-npm install
+docker-compose up -d
 ```
 
-Rename `config-template.toml` to `config.toml` and fill in your api-tokens.
+Remove the `-d` flag to not run the bot in detached mode. Remember: The bot will terminate with the terminal window.
 
-Start the bot
-
-```
-node .
-```
-
-Ideally you run the following command.
-
-```
-nohup node . >> log.txt &
-```
-
-This prevents treminating the bot and writes all output to log.txt. (On Linux)
+> Just run `node .` if you don't have docker installed.
 
 # Documentation
 
