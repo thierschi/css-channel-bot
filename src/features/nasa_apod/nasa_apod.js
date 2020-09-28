@@ -76,7 +76,7 @@ async function get_apod(date) {
 		});
 
 	if (apod_json.code != undefined) {
-		throw 'No APOD available';
+		throw apod_json.msg != undefined ? apod_json.msg : 'Error with APOD JSON';
 	}
 
 	// Fetch (at least try to fetch) NASA APOD
@@ -190,6 +190,56 @@ async function send_apod_info(guild_id, apod_json, img_buffer) {
 	}
 }
 
+/**
+ *  Sends a message embed containing info about
+ *  the APOD to the system channel of the given guild
+ *
+ * @param {Discord.message} message Message to respond
+ * @param {*} apod_json, json returned by apod api
+ * @param {*} img_buffer, apod img, if there is an image today
+ */
+async function send_apod_info_response(msg, apod_json, img_buffer) {
+	if (apod_json.media_type == 'image') {
+		// Message Embed containing info and the today's apod
+		const file = new Discord.MessageAttachment(img_buffer, 'apod.jpg');
+		const answer = new Discord.MessageEmbed()
+			.setColor(config.get('colors/embed/color'))
+			.setTitle(`The following APOD was the css logo on ${apod_json.date}.`)
+			.setDescription(`__**${apod_json.title}**__\n${apod_json.explanation}`)
+			.setImage('attachment://apod.jpg')
+			.setTimestamp(apod_json.date)
+			.setFooter(
+				apod_json.copyright == undefined
+					? 'No copyright information'
+					: apod_json.copyright
+			);
+
+		// Sends message embed to guild's system channel
+		return msg.channel.send({ files: [file], embed: answer });
+	} else {
+		// Message Embed containing info that there's no apod today
+		const answer = new Discord.MessageEmbed()
+			.setColor(config.get('colors/embed/color'))
+			.setTitle(`The NASA APOD was not a picture on ${apod_json.date}.`)
+			.setDescription(
+				`But you can enjoy this:\n\n__**${apod_json.title}**__\n${apod_json.explanation}`
+			)
+			.setURL(apod_json.url)
+			.setTimestamp(apod_json.date)
+			.setFooter(
+				apod_json.copyright == undefined
+					? 'No copyright information'
+					: apod_json.copyright
+			);
+
+		// Sends message embed to guild's system channel
+		return msg.channel.send({ embed: answer });
+	}
+}
+
 module.exports = {
 	get_cron_task,
+	get_apod,
+	create_guild_logo,
+	send_apod_info_response,
 };

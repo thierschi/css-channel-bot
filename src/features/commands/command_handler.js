@@ -8,6 +8,7 @@ const help_map = new Map();
 
 require('./ping/ping').init_commands(command_map, help_map);
 require('./controls/cleanup_controls').init_commands(command_map, help_map);
+require('./apod_cmds/apod_cmds').init_commands(command_map, help_map);
 
 /**
  * Takes a message and runs the associated command
@@ -68,7 +69,9 @@ function help_overview() {
 	// Build awnser
 	let answer = '__**The following help is available:**__\n\n';
 	for (let cmd of help_arr) {
-		answer += `> ${help_map.get(cmd).help_title} - \`!help ${cmd}\`\n`;
+		answer += `> ${help_map.get(cmd).help_title} - \`${config.get(
+			'server/cmd-prefix'
+		)}help ${cmd}\`\n`;
 	}
 
 	return answer;
