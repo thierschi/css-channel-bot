@@ -5,7 +5,7 @@ The css-channel-bot was originally intended to create channels on a discord serv
 The bot is now heading towards being an allround bot, including music-bot and much more.
 
 # Features
-
+ - Daily new Logo from Nasa APOD: The bot checks for a new APOD daily, overlays your logo (if APOD is a picture) and sets it as the servers logo.
 ## TODOS
 
 - [x] Ping Command - Simple ping command that returns elapsed time.
